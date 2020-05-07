@@ -116,25 +116,6 @@
       <property name="component" value="Service" />
     </ant>
 
-    <replace dir="${cgibinTargetDir}"
-             propertyFile="${targetDir}/config/gus.config">
-      <include name="**/*" />
-      <replacefilter token="@perl@" property="perl" />
-      <replacefilter token="@targetDir@" value="${targetDir}" />
-    </replace>
-
-    <property environment="env" />
-
-    <replace dir="${cgilibTargetDir}"
-             propertyFile="${targetDir}/config/gus.config">
-      <include name="**/*" />
-      <replacefilter token="@perl@" property="perl" />
-      <replacefilter token="@targetDir@" value="${targetDir}" />
-      <replacefilter token="@cgibinTargetDir@" value="${cgibinTargetDir}" />
-      <replacefilter token="@cgilibTargetDir@" value="${cgilibTargetDir}" />
-      <replacefilter token="@oracleHome@" value="${env.ORACLE_HOME}" />
-    </replace>
-
   </target>
 
 </project>
