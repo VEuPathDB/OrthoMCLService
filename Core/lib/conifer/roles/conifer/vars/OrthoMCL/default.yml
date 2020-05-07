@@ -1,8 +1,6 @@
 # $SourceFileURL$
 ---
-_build_number: 5
-_clusterhostname: eupathdb.gacrc.uga.edu
-_clusterbasedir: /lustre1/eupathdb
+_build_number: 6
 _self_url_scheme: http
 
 modelconfig_modelName: OrthoMCL
@@ -22,38 +20,9 @@ modelprop:
   LEGACY_WEBAPP_BASE_URL: "/{{ webapp_ctx }}"
   PROJECT_ID: '{{ project }}'
   STEP_ANALYSIS_JOB_DIR: '{{ _wdkStepAnalysisJobsDir }}'
-  TWITTER_URL: https://twitter.com/EuPathDB
+  TWITTER_URL: https://twitter.com/veupathdb
   TWITTER_WIDGET_ID: 344817818073714691
   USE_LEGACY_RECORD_PAGE: 'true'
   WEBAPP_BASE_URL: "/{{ webapp_ctx }}/app"
   WEBSERVICEMIRROR: /var/www/Common/apiSiteFilesMirror/webServices/OrthoMCL
   YOUTUBE_URL: https://youtube.com/user/EuPathDB/videos?sort=dd&flow=list&view=1
-
-orthomclproteomesvcserverprop_resultBaseUrl: '{{ _self_url_scheme }}://{{ hostname|swap_hostname(_host_frontends) }}/orthomcl/proteomeDownload.do?jobId='
-orthomclproteomesvcserverprop_resultsDir: /var/www/Common/orthomcl-mapping-service/results
-orthomclproteomesvcserverprop_adminEmail: b3J0aG9tY2xfYWxlcnRAbGlzdHMudXBlbm4uZWR1
-orthomclproteomesvcserverprop_uploadIsOffline: 1
-orthomclproteomesvcserverprop_purgeWindow: 60
-orthomclproteomesvcserverprop_groupsFile: /var/www/Common/apiSiteFilesMirror/downloadSite/OrthoMCL/release-5/groups_OrthoMCL-5.txt.gz
-orthomclproteomesvcserverprop_formatdbBinDir: /opt/ncbi-blast2/bin
-orthomclproteomesvcserverprop_mclBin: /opt/mcl/bin/mcl
-
-orthomclproteomesvcclusterprop_serverControlDir: '/var/www/Common/orthomcl-mapping-service/build-{{ _build_number }}/{{ hostname }}/queues/{{ _clusterhostname }}'
-orthomclproteomesvcclusterprop_blastDbFilePath: '{{ _clusterbasedir }}/orthomcl-mapping-service/build-{{ _build_number }}/db/proteinSeqs'
-orthomclproteomesvcclusterprop_maxJobs: 10
-orthomclproteomesvcclusterprop_clusterServerDir: '{{ _clusterbasedir }}/orthomcl-mapping-service/build-{{ _build_number }}/{{ hostname }}/queues/{{ _clusterhostname }}'
-orthomclproteomesvcclusterprop_clusterServer: orthomclProteomeJob-SAPELO
-orthomclproteomesvcclusterprop_clusterUserName: sfischer1
-orthomclproteomesvcclusterprop_clusterQueue: HIGHMEM
-orthomclproteomesvcclusterprop_clusterMaxGigsPerNode: 8
-orthomclproteomesvcclusterprop_nodePath: '{{ _clusterbasedir }}/orthomcl-mapping-service/scratch'
-orthomclproteomesvcclusterprop_blastBinDir: '{{ _clusterbasedir }}/workflow-software/software/ncbi_blast/2.2.25/bin'
-orthomclproteomesvcclusterprop_rcfile: '/home/{{ orthomclproteomesvcclusterprop_clusterUserName }}/orthomcl-job-envs/{{ hostname }}.env'
-orthomclproteomesvcclusterprop_numNodes: 10
-orthomclproteomesvcclusterprop_slotsPerNode: 1
-orthomclproteomesvcclusterprop_transferServer: orthomclProteomeJob-SAPELO-transfer
-orthomclproteomesvcclusterprop_ppn: 1
-orthomclproteomesvcclusterprop_nodeClass: 'DJob::DistribJob::TorqueNode'
-orthomclproteomesvcclusterprop_taskSize: 100
-orthomclproteomesvcclusterprop_taskClass: DJob::DistribJobTasks::BlastSimilarityTask
-orthomclproteomesvcclusterprop_blastArgs: "-a 1 -F 'm S' -v 1000 -b 1000  -e 1e-5"

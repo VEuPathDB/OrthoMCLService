@@ -1,5 +1,0 @@
-dependencies:
-  - '{{ project_home }}/EbrcWebsiteCommon/Model/lib/conifer'
-  - '{{ project_home }}/EbrcWebSvcCommon/WSFPlugin/lib/conifer'
-  - '{{ project_home }}/OrthoMCLWebService/WSFPlugin/lib/conifer'
-  - '{{ project_home }}/WDK/Model/lib/conifer'
