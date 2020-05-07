@@ -1,0 +1,316 @@
+<gbrowseSanity>
+    <sqlValue name="aa_seq_id_PF11_0344">
+      <sql>
+      select aa_sequence_id from dots.externalaasequence where source_id = 'PF11_0344'
+      </sql>
+    </sqlValue>
+
+    <sqlValue name="aa_sequence_id">
+      <sql>
+      <![CDATA[
+      select aa_sequence_id
+      from apidb.OrthologGroupAaSequence
+      where rownum <= ROWNUM_COUNT
+      ]]>
+      </sql>
+    </sqlValue>
+
+    <sqlValue name="db_ref_id">
+      <sql>
+      <![CDATA[
+      select db_ref_id
+      from sres.dbref
+      where rownum <= ROWNUM_COUNT
+      ]]>
+      </sql>
+    </sqlValue>
+
+    <sqlValue name="ortholog_group_id">
+      <sql>
+      <![CDATA[
+      select ortholog_group_id
+      from apidb.orthologgroup
+      where rownum <= ROWNUM_COUNT
+      ]]>
+      </sql>
+    </sqlValue>
+
+    <sqlValue name="ortholog_group_name">
+      <sql>
+      <![CDATA[
+      select name
+      from apidb.orthologgroup
+      where rownum <= ROWNUM_COUNT
+      ]]>
+      </sql>
+    </sqlValue>
+
+    <sqlValue name="sequence_source_id">
+      <sql>
+      <![CDATA[
+      select source_id
+      from apidb.orthologgroupaasequence gs, dots.externalaasequence s
+      where gs.aa_sequence_id = s.aa_sequence_id 
+      and rownum <= ROWNUM_COUNT
+      ]]>
+      </sql>
+    </sqlValue>
+
+    <sqlValue name="taxon_id">
+      <sql>
+      <![CDATA[
+      select taxon_id
+      from apidb.orthomcltaxon
+      where rownum <= ROWNUM_COUNT
+      ]]>
+      </sql>
+    </sqlValue>
+
+    <test name="all_taxa_count" min="1" max="1">
+    </test>
+
+    <test name="all_sequences_count" min="1" max="1">
+    </test>
+
+    <test name="all_groups_count" min="1" max="1">
+    </test>
+
+    <test name="all_taxa_info" min="50" max="500">
+    </test>
+      
+
+    <test name="sequence_info_per_history_seq" min="20" max="20">
+      <prepare type="aa_sequence_id" count="20"/>
+    </test>
+      
+
+    <test name="group_per_seq" min="200" max="200">
+      <prepare type="aa_sequence_id" count="200"/>
+    </test>
+      
+
+    <test name="sequences_per_grp" min="200" max="2000">
+      <prepare type="ortholog_group_id" count="200"/>
+    </test>
+      
+
+    <test name="groups_like_seq_descrip_keyword" min="1000" max="3000">
+         <param name="querycode" value="kinase"/>
+    </test>
+      
+     
+    <test name="groups_by_pfam_accession" min="1" max="200">
+         <param name="querycode" value="PF00091"/>
+    </test>
+      
+
+    <test name="groups_like_pfam_name" min="1" max="100">
+         <param name="querycode" value="tubulin"/>
+    </test>
+      
+
+    <test name="groups_like_pfam_description" min="20" max="100">
+         <param name="querycode" value="ubiquitin"/>
+    </test>
+      
+
+    <test name="groups_by_num_seqs" min="100" max="200">
+      <param name="number" value="= 30"/>
+    </test>
+      
+
+    <test name="groups_by_num_species" min="1000" max="20000">
+      <param name="number" value="> 10"/>
+    </test>
+      
+
+    <test name="groups_by_num_match_pairs" min="1000" max="100000">
+      <param name="number" value="> 50"/>
+    </test>
+      
+
+    <test name="groups_by_percent_identity" min="1000" max="20000">
+      <param name="number" value="> 80"/>
+    </test>
+      
+
+    <test name="groups_by_percent_match" min="1000" max="30000">
+      <param name="number" value="> 95"/>
+    </test>
+      
+
+    <test name="groups_by_blast_evalue" min="1000" max="10000">
+      <param name="number" value="= 80"/>
+    </test>
+      
+
+    <test name="group_attributes_per_group" min="1000" max="1000">
+      <prepare type="ortholog_group_id" count="1000"/>
+    </test>
+      
+
+    <test name="taxa_num_genes_per_group" min="1" max="3000">
+      <prepare type="ortholog_group_id" count="1000"/>
+    </test>
+
+
+    <test name="sequence_descrip_per_group" min="100" max="50000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="sequence_domains_per_group" min="100" max="100000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="description_per_domain" min="100" max="10000">
+      <prepare type="db_ref_id" count="100"/>
+    </test>
+
+
+    <test name="sequence_attributes_per_group" min="100" max="50000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="sequence_per_source_id" min="100" max="10000">
+      <prepare type="sequence_source_id" count="100"/>
+    </test>
+      
+
+    <test name="sequence_id_like_id_and_descrip_keyword" min="1" max="1">
+      <param name="querycode" value="NP_213050."/>
+    </test>
+      
+
+    <test name="sequence_id_like_descrip_keyword" min="10" max="20000">
+      <param name="querycode" value="kinase"/>
+    </test>
+      
+
+    <test name="sequence_id_by_three_letter_abbrev" min="5000" max="6000">
+      <param name="querycode" value="pfa"/>
+    </test>
+      
+
+    <test name="sequence_id_by_pfam_accession" min="10" max="1000">
+      <param name="querycode" value="PF00406"/>
+    </test>
+      
+
+    <test name="sequence_id_like_pfam_name" min="10" max="1000">
+      <param name="querycode" value="kinase"/>
+    </test>
+      
+
+    <test name="sequence_id_like_pfam_keyword" min="10" max="1000">
+      <param name="querycode" value="Adenylate"/>
+    </test>
+      
+
+    <test name="group_name_by_sequence_id" min="1" max="1">
+      <param name="seq_id" value="$$aa_seq_id_PF11_0344$$"/>
+    </test>
+      
+
+    <test name="sequence_info_per_sequence_id" min="100" max="10000">
+      <prepare type="aa_sequence_id" count="100"/>
+    </test>
+      
+
+    <test name="group_name_per_group_id" min="100" max="10000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="group_id_per_group_name" min="100" max="10000">
+      <prepare type="ortholog_group_name" count="100"/>
+    </test>
+      
+
+    <test name="sequence_info_per_group_id" min="100" max="100000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="max_length_per_group_id" min="100" max="10000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="domains_info_per_sequence_id" min="100" max="20000">
+      <prepare type="aa_sequence_id" count="100"/>
+    </test>
+      
+
+    <test name="sequence_info_per_source_id" min="100" max="10000">
+      <prepare type="sequence_source_id" count="100"/>
+    </test>
+      
+
+    <test name="domain_arch_per_sequence_source_id" min="100" max="20000">
+      <prepare type="sequence_source_id" count="100"/>
+     </test>
+      
+
+    <test name="species_details" min="87" max="87">
+    </test>
+      
+
+    <test name="num_sequences_per_species" min="50" max="500">
+      <prepare type="taxon_id" count="50"/>
+    </test>
+      
+
+    <test name="num_clustered_sequences_per_species" min="50" max="500">
+      <prepare type="taxon_id" count="50"/>
+    </test>
+      
+
+    <test name="num_groups_per_species" min="50" max="500">
+      <prepare type="taxon_id" count="50"/>
+    </test>
+      
+
+    <test name="msa_per_group_name" min="100" max="100">
+      <prepare type="ortholog_group_name" count="100"/>
+    </test>
+      
+
+    <test name="svg_content_per_group_name" min="100" max="10000">
+      <prepare type="ortholog_group_name" count="100"/>
+    </test>
+      
+
+    <test name="biolayout_image_per_group_name" min="100" max="10000">
+      <prepare type="ortholog_group_name" count="100"/>
+    </test>
+      
+
+    <test name="sequence_info_per_group_name" min="100" max="10000">
+      <prepare type="ortholog_group_name" count="100"/>
+    </test>
+      
+
+    <test name="sequence_info_per_group_id" min="100" max="10000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="domain_sequence_info_per_group_id" min="100" max="10000">
+      <prepare type="ortholog_group_id" count="100"/>
+    </test>
+      
+
+    <test name="sequence_info_per_sequence_id" min="100" max="10000">
+      <prepare type="aa_sequence_id" count="100"/>
+    </test>
+      
+
+    <test name="group_id_per_sequence_id" min="100" max="10000">
+      <prepare type="aa_source_id" count="100"/>
+    </test>
+
+</gbrowseSanity>
+

@@ -1,0 +1,12 @@
+#!/usr/bin/perl 
+
+use strict;
+
+use lib "@targetDir@/lib/perl";
+$ENV{GUS_HOME} = '@targetDir@';
+
+use OrthoMCLWebsite::Model::Ppe::Processor;
+
+@ARGV = map { s/\+/ plus /g; $_;} @ARGV;  # change + to plus in expr
+
+OrthoMCLWebsite::Model::Ppe::Processor->new()->go();

@@ -1,0 +1,140 @@
+<project name="OrthoMCLService" default="Installation" basedir=".">
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <import file="${projectsDir}/EbrcWebsiteCommon/build.xml" />
+  <import file="${projectsDir}/OrthoMCLModel/build.xml" />
+
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLService-Installation" depends="EbrcWebsiteCommon-Installation,
+                                                       OrthoMCLModel-Installation,
+                                                       OrthoMCLService-MavenInstallation,
+                                                       OrthoMCLService/Core-Installation,
+                                                       OrthoMCLService/Service-Installation">
+    <ant target="defaultProjectInstall" />
+  </target>
+
+  <target name="OrthoMCLService-MavenInstallation">
+    <ant target="mavenBuildProject">
+      <property name="project" value="OrthoMCLService" />
+    </ant>
+    <property name="alreadyBuilt" value="true" />
+  </target>
+
+  <!-- ooooooooooooooooo  Installation Postprocess  ooooooooooooooooooooo -->
+
+
+  <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLService/Core-Installation">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLService" />
+      <property name="component" value="Core" />
+    </ant>
+
+    <replace dir="${targetDir}/bin"
+             propertyFile="${targetDir}/config/gus.config">
+      <include name="**/*" />
+      <replacefilter token="@perl@" property="perl" />
+      <replacefilter token="@targetDir@" value="${targetDir}" />
+    </replace>
+
+    <!-- run YAPP to generate the parser -->
+    <echo>Run yapp tool to generate Parser module from the grammar. The yapp
+      must have been installed in the current path.
+    </echo>
+    <exec executable="yapp" failonerror="true">
+      <arg value="-m" />
+      <arg value="OrthoMCLService::Core::Ppe::Parser" />
+      <arg value="-o" />
+      <arg value="${targetDir}/lib/perl/OrthoMCLService/Core/Ppe/Parser.pm" />
+      <arg value="${targetDir}/lib/perl/OrthoMCLService/Core/Ppe/Parser.yp" />
+    </exec>
+
+    <!-- the following three commands generate the OrthoMCL ontology -->
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'" />
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
+      </classpath>
+    </java>
+
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'" />
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
+      </classpath>
+    </java>
+
+    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OntologyMerger">
+      <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl" />
+      <classpath>
+        <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
+        <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
+        <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/config/" />
+      </classpath>
+    </java>
+
+  </target>
+
+  <target name="OrthoMCLService/Service-Installation">
+    <ant target="defaultComponentInstall">
+      <property name="project" value="OrthoMCLService" />
+      <property name="component" value="Service" />
+    </ant>
+  </target>
+
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
+  <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
+  <target name="OrthoMCLService-WebInstallation" depends="EbrcWebsiteCommon-WebInstallation,
+                                                          OrthoMCLService-Installation,
+                                                          OrthoMCLService/Service-WebInstallation">
+  </target>
+
+  <target name="OrthoMCLService/Service-WebInstallation">
+
+    <ant target="eupathWebComponentInstall">
+      <property name="project" value="OrthoMCLService" />
+      <property name="component" value="Service" />
+    </ant>
+
+    <replace dir="${cgibinTargetDir}"
+             propertyFile="${targetDir}/config/gus.config">
+      <include name="**/*" />
+      <replacefilter token="@perl@" property="perl" />
+      <replacefilter token="@targetDir@" value="${targetDir}" />
+    </replace>
+
+    <property environment="env" />
+
+    <replace dir="${cgilibTargetDir}"
+             propertyFile="${targetDir}/config/gus.config">
+      <include name="**/*" />
+      <replacefilter token="@perl@" property="perl" />
+      <replacefilter token="@targetDir@" value="${targetDir}" />
+      <replacefilter token="@cgibinTargetDir@" value="${cgibinTargetDir}" />
+      <replacefilter token="@cgilibTargetDir@" value="${cgilibTargetDir}" />
+      <replacefilter token="@oracleHome@" value="${env.ORACLE_HOME}" />
+    </replace>
+
+  </target>
+
+</project>

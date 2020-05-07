@@ -1,0 +1,8 @@
+# This file contains macros used in model.xml
+PROJECT_ID = OrthoMCL
+
+SITE_ADMIN_EMAIL=mheiges@uga.edu, aurreco@uga.edu
+
+BLASTDB_PATH=/var/www/Common/apiSiteFilesMirror/webServices/OrthoMCL
+
+
