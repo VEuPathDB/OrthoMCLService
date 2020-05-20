@@ -61,14 +61,14 @@
 
       <dependency>
         <groupId>org.gusdb</groupId>
-        <artifactId>wsf-plugin</artifactId>
+        <artifactId>wsf-common</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.gusdb</groupId>
-        <artifactId>fgputil-util</artifactId>
-      <version>${project.version}</version>
+        <artifactId>wsf-plugin</artifactId>
+        <version>${project.version}</version>
       </dependency>
 
     </dependencies>
