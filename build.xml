@@ -4,7 +4,7 @@
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <import file="${projectsDir}/EbrcWebsiteCommon/build.xml" />
+  <import file="${projectsDir}/EbrcWebSvcCommon/build.xml" />
   <import file="${projectsDir}/OrthoMCLModel/build.xml" />
 
 
