@@ -12,7 +12,7 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-Installation" depends="EbrcWebsiteCommon-Installation,
+  <target name="OrthoMCLService-Installation" depends="EbrcWebSvcCommon-Installation,
                                                        OrthoMCLModel-Installation,
                                                        OrthoMCLService-MavenInstallation,
                                                        OrthoMCLService/Core-Installation,
@@ -104,7 +104,7 @@
   <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-WebInstallation" depends="EbrcWebsiteCommon-WebInstallation,
+  <target name="OrthoMCLService-WebInstallation" depends="EbrcWebSvcCommon-WebInstallation,
                                                           OrthoMCLService-Installation,
                                                           OrthoMCLService/Service-WebInstallation">
   </target>
