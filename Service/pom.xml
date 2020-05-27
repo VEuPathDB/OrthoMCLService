@@ -21,11 +21,6 @@
 
     <dependency>
       <groupId>org.eupathdb</groupId>
-      <artifactId>ebrc-website-common-site</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>org.eupathdb</groupId>
       <artifactId>ebrc-website-common-model</artifactId>
     </dependency>
 

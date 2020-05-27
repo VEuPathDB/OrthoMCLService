@@ -104,8 +104,8 @@
   <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="OrthoMCLService-WebInstallation" depends="EbrcWebSvcCommon-WebInstallation,
-                                                          OrthoMCLService-Installation,
+  <target name="OrthoMCLService-WebInstallation" depends="OrthoMCLService-Installation,
+                                                          EbrcWebSvcCommon-WebInstallation,
                                                           OrthoMCLService/Service-WebInstallation">
   </target>
 
