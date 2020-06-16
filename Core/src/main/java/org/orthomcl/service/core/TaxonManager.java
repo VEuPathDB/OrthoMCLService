@@ -9,20 +9,12 @@ import java.util.Map;
 import org.gusdb.wdk.model.WdkModel;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
-import org.gusdb.wdk.model.answer.AnswerValue;
-import org.gusdb.wdk.model.answer.factory.AnswerValueFactory;
-import org.gusdb.wdk.model.answer.spec.AnswerSpec;
-import org.gusdb.wdk.model.question.Question;
 import org.gusdb.wdk.model.record.RecordInstance;
 import org.gusdb.wdk.model.record.TableValue;
 import org.gusdb.wdk.model.record.attribute.AttributeValue;
-import org.gusdb.wdk.model.user.StepContainer;
-import org.gusdb.wdk.model.user.User;
 import org.orthomcl.service.core.layout.RenderingHelper;
 
 public class TaxonManager {
-
-  public static final String HELPER_QUESTION = "HelperQuestions.ByDefault";
 
   private static final String TABLE_TAXONS = "Taxons";
   private static final String TABLE_ROOTS = "RootTaxons";
@@ -39,16 +31,7 @@ public class TaxonManager {
 
   private static synchronized Map<String, Taxon> loadTaxons(WdkModel wdkModel) throws WdkModelException {
     try {
-      // load helper record into request
-      Question question = wdkModel.getQuestionByFullName(HELPER_QUESTION)
-          .orElseThrow(() -> new WdkModelException(HELPER_QUESTION + " does not exist in this model."));
-      User user = wdkModel.getSystemUser();
-      AnswerValue answerValue = AnswerValueFactory
-          .makeAnswer(user, AnswerSpec
-              .builder(wdkModel)
-              .setQuestionFullName(question.getFullName())
-              .buildRunnable(user, StepContainer.emptyContainer()));
-      RecordInstance record = answerValue.getRecordInstances()[0];
+      RecordInstance record = HelperRecord.get(wdkModel);
   
       Map<String, Taxon> newTaxons = new LinkedHashMap<>();
       Map<Integer, Integer> parents = new HashMap<>();

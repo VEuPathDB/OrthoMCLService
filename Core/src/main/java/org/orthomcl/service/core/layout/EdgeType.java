@@ -2,7 +2,12 @@ package org.orthomcl.service.core.layout;
 
 public enum EdgeType {
 
-  Ortholog("O"), Coortholog("C"), Inparalog("P"), Normal("N");
+  Ortholog("O"),
+  Coortholog("C"),
+  Inparalog("P"),
+  PeripheralCore("L"),
+  PeripheralPeripheral("M"),
+  Normal("N");
 
   public static EdgeType get(String codeOrName) {
     // check if code matches

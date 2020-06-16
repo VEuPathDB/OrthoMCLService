@@ -5,7 +5,7 @@ import java.util.Set;
 import org.eupathdb.common.service.EuPathServiceApplication;
 import org.gusdb.fgputil.SetBuilder;
 import org.orthomcl.service.services.GroupLayoutService;
-import org.orthomcl.service.services.TaxonService;
+import org.orthomcl.service.services.DataSummaryService;
 
 public class OrthoMCLServiceApplication extends EuPathServiceApplication {
 
@@ -13,7 +13,7 @@ public class OrthoMCLServiceApplication extends EuPathServiceApplication {
   public Set<Class<?>> getClasses() {
     return new SetBuilder<Class<?>>()
       .addAll(super.getClasses())
-      .add(TaxonService.class)
+      .add(DataSummaryService.class)
       .add(GroupLayoutService.class)
       .toSet();
   }

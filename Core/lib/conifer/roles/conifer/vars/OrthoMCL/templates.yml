@@ -8,6 +8,12 @@ model-config.xml:
 model.prop:
   src: 'WDK/model.prop.j2'
   dest: '{{ gus_home }}/config/{{ project }}/model.prop'
+blast-config.xml:
+  src: 'EbrcWebSvcCommon/blast-config.xml.j2'
+  dest: '{{ gus_home }}/config/blast-config.xml'
+projects.xml:
+  src: 'EbrcWebsiteCommon/projects.xml.j2'
+  dest: '{{ gus_home }}/config/projects.xml'
 tomcat_context.xml:
   src: 'WDK/tomcat_context.xml.j2'
   dest: '{{ gus_home }}/config/{{ webapp_ctx }}.xml'

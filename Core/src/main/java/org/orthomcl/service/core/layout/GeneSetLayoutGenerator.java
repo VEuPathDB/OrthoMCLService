@@ -137,6 +137,8 @@ public class GeneSetLayoutGenerator {
     loadEdgeTypes(layout, EdgeType.Ortholog, answer, "Ortholog");
     loadEdgeTypes(layout, EdgeType.Coortholog, answer, "Coortholog");
     loadEdgeTypes(layout, EdgeType.Inparalog, answer, "Inparalog");
+    loadEdgeTypes(layout, EdgeType.PeripheralCore, answer, "PeripheralCore");
+    loadEdgeTypes(layout, EdgeType.PeripheralPeripheral, answer, "PeripheralPeripheral");
   }
 
   private void loadEdgeTypes(GroupLayout layout, EdgeType type, AnswerValue answer, String tableName)
