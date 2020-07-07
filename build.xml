@@ -58,35 +58,41 @@
     </exec>
 
     <!-- the following three commands generate the OrthoMCL ontology -->
-    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
+    <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.OwlClassGenerator">
       <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename individuals.txt -outputFilename individuals.owl -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/individuals.owl'" />
       <classpath>
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-core-2.13.3.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
-    <java failonerror="true" classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
+    <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.EuPathAnnotPropAdder">
       <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename annotation.txt -outputFilename annotation.owl  -ontoIRIstr 'http://purl.obolibrary.org/obo/eupath/category/annotation.owl'" />
       <classpath>
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-core-2.13.3.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
 
-    <java failonerror="true" classname="org.eupathdb.common.model.ontology.OntologyMerger">
+    <java failonerror="true" fork="true" classname="org.eupathdb.common.model.ontology.OntologyMerger">
       <arg line="-path ${targetDir}/lib/wdk/ontology/ -inputFilename categories_full.owl -outputFilename categories_merged.owl" />
       <classpath>
         <pathelement location="${targetDir}/lib/java/ebrc-website-common-model-1.0.0.jar" />
         <pathelement location="${targetDir}/lib/java/args4j-2.0.23.jar" />
         <pathelement location="${targetDir}/lib/java/owlapi-distribution-3.5.0.jar" />
-        <pathelement location="${targetDir}/lib/java/log4j-1.2.17.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-1.2-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-api-2.13.3.jar" />
+        <pathelement location="${targetDir}/lib/java/log4j-core-2.13.3.jar" />
         <pathelement location="${targetDir}/config/" />
       </classpath>
     </java>
