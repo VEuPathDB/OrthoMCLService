@@ -11,13 +11,13 @@ import org.gusdb.wdk.service.service.AbstractWdkService;
 import org.orthomcl.service.core.layout.GroupLayout;
 import org.orthomcl.service.core.layout.GroupLayoutManager;
 
+@Path("/group")
 public class GroupLayoutService extends AbstractWdkService {
 
   @GET
-  @Path("/group/{groupName}/layout")
+  @Path("/{groupName}/layout")
   @Produces(MediaType.APPLICATION_JSON)
   public Response handleRequest(@PathParam("groupName") String groupName) throws Exception {
-
     // get the layout data
     GroupLayoutManager layoutManager = new GroupLayoutManager(getWdkModel());
     GroupLayout layout = layoutManager.getLayout(getSessionUser(), groupName);
