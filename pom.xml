@@ -10,7 +10,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>Core</module>
     <module>Service</module>
   </modules>
 

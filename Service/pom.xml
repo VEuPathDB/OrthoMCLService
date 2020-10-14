@@ -16,7 +16,7 @@
 
     <dependency>
       <groupId>org.orthomcl</groupId>
-      <artifactId>orthomcl-service-core</artifactId>
+      <artifactId>orthomcl-model-model</artifactId>
     </dependency>
 
     <dependency>
