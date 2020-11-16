@@ -29,16 +29,9 @@ public class DataSummaryService extends AbstractWdkService {
   }
 
   @GET
-  @Path("/genome-statistics")
+  @Path("/proteomes")
   @Produces(MediaType.APPLICATION_JSON)
-  public Response getGenomeStatistics() throws WdkModelException {
-    return getHelperTableResponse("ReleaseSummary");
-  }
-
-  @GET
-  @Path("/genome-sources")
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response getGenomeSources() throws WdkModelException {
+  public Response getProteomes() throws WdkModelException {
     return getHelperTableResponse("DataSummary");
   }
 
