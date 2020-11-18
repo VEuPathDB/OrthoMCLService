@@ -1,4 +1,4 @@
-package OrthoMCLClient::View::CgiApp::MsaOrthoMCL;
+package OrthoMCLService::Service::CgiApp::MsaOrthoMCL;
 @ISA = qw( EbrcWebsiteCommon::View::CgiApp );
 
 use strict;

@@ -6,10 +6,10 @@ use lib "@targetDir@/lib/perl";
 $ENV{GUS_HOME} = '@targetDir@';
 
 use CGI qw/:standard/;
-use OrthoMCLClient::View::CgiApp::MsaOrthoMCL;
+use OrthoMCLService::Service::CgiApp::MsaOrthoMCL;
 
 my $cgi = new CGI;
 
-my $app = OrthoMCLClient::View::CgiApp::MsaOrthoMCL->new(ConfigFile => "cryptoModel");
+my $app = OrthoMCLService::Service::CgiApp::MsaOrthoMCL->new(ConfigFile => "cryptoModel");
 
 $app->go();
