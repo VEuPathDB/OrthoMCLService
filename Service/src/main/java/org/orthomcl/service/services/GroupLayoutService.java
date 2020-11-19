@@ -8,6 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.gusdb.wdk.service.service.AbstractWdkService;
+import org.json.JSONObject;
 import org.orthomcl.service.core.layout.GroupLayout;
 import org.orthomcl.service.core.layout.GroupLayoutManager;
 
@@ -23,6 +24,10 @@ public class GroupLayoutService extends AbstractWdkService {
     GroupLayout layout = layoutManager.getLayout(getSessionUser(), groupName);
 
     // format response
-    return Response.ok(layout.toJson().toString()).build();
+    JSONObject layoutJson = layout == null
+      ? new JSONObject().put("layoutOffered", false)
+      : layout.toJson().put("layoutOffered", true);
+
+    return Response.ok(layoutJson.toString()).build();
   }
 }
