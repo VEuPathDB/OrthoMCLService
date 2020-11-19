@@ -25,7 +25,7 @@ sub run {
   my $ids = join(',', map { "'$_'" } @ids);
 
   my $sql = <<EOSQL;
-SELECT secondary_identifier AS full_id, eas.sequence
+SELECT secondary_identifier AS full_id, sequence
 FROM dots.ExternalAaSequence
 WHERE secondary_identifier in ($ids)
 EOSQL
