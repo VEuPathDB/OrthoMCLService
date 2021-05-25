@@ -39,7 +39,7 @@ EOSQL
   }
   close $infh;
 
-  my ($outfh, $outfile) = tempfile();
+  my ($outfh, $outFile) = tempfile();
   my ($dndfh, $dndfile) = tempfile();
   my ($tmpfh, $tmpfile) = tempfile();
 
@@ -48,7 +48,16 @@ EOSQL
       $userOutFormat = "clu";
   }
 
-  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outfile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force > $tmpfile";
+  if (-z $outFile) {
+      print $cgi->header('text/html');
+      print "<pre>";
+      print "<h3>This sequence alignment job timed out. <br>Try this again with fewer sequences.</h3>";
+      print "</div>";
+      exit;
+  }
+
+
+  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force > $tmpfile";
   system($cmd);
   my $dndData = "";
 
@@ -78,7 +87,7 @@ EOSQL
   # print Dumper $response->content;
   my $iTOLLink =  "https://itol.embl.de/" . $response->{'_headers'}->{'location'};
   my $iTOLHTML = "<a href='$iTOLLink' target='_blank'><h4>Click here to view a phylogenetic tree of the alignment.</h4></a>";
-  &createHTML($iTOLHTML,$outfile,$cgi);
+  &createHTML($iTOLHTML,$outFile,$cgi);
 
   open(D, "$dndfile"); # Printing the dendrogram on the results page.
   print "<pre>";
