@@ -48,6 +48,9 @@ EOSQL
       $userOutFormat = "clu";
   }
 
+  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force > $tmpfile";
+  system($cmd);
+
   if (-z $outFile) {
       print $cgi->header('text/html');
       print "<pre>";
@@ -56,11 +59,7 @@ EOSQL
       exit;
   }
 
-
-  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force > $tmpfile";
-  system($cmd);
   my $dndData = "";
-
   open(D, "$dndfile"); #This is for the iTOL input. 
   while(<D>) {
     my $revData = reverse($_);
