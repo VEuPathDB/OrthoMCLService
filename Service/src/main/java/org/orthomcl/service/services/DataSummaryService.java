@@ -11,6 +11,7 @@ import javax.ws.rs.core.Response;
 import org.gusdb.fgputil.json.ToJson;
 import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.model.WdkUserException;
+import org.gusdb.wdk.model.report.config.AnswerDetails.AttributeFormat;
 import org.gusdb.wdk.model.report.util.RecordFormatter;
 import org.gusdb.wdk.service.service.AbstractWdkService;
 import org.orthomcl.service.core.HelperRecord;
@@ -37,7 +38,7 @@ public class DataSummaryService extends AbstractWdkService {
 
   private Response getHelperTableResponse(String tableName) throws WdkModelException {
     try {
-      return Response.ok(RecordFormatter.getTableRowsJson(HelperRecord.get(getWdkModel()), tableName)).build();
+      return Response.ok(RecordFormatter.getTableRowsJson(HelperRecord.get(getWdkModel()), tableName, AttributeFormat.DISPLAY)).build();
     }
     catch (WdkUserException e) {
       throw new WdkModelException("Could not load helper record dynamic table: " + tableName);
