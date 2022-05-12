@@ -14,7 +14,10 @@
 
   <target name="OrthoMCLService-Installation" depends="OrthoMCLModel-Installation,
                                                        OrthoMCLService/Service-Installation">
-    <ant target="defaultProjectInstall" />
+    <ant target="defaultProjectInstall">
+      <property name="project" value="OrthoMCLService" />
+    </ant>
+
   </target>
 
   <target name="OrthoMCLService/Service-Installation">
