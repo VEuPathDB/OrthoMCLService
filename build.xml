@@ -34,7 +34,7 @@
                                                           OrthoMCLService/Service-WebInstallation"/>
 
   <target name="OrthoMCLService/Service-WebInstallation">
-    <ant target="eupathWebComponentInstall">
+    <ant target="defaultWebComponentInstall">
       <property name="project" value="OrthoMCLService" />
       <property name="component" value="Service" />
     </ant>
