@@ -20,7 +20,7 @@ public class NewickProteinTreeService extends AbstractWdkService {
     @GET
     @Path ("/{orthoGroupId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNewickProteinTree() throws WdkModelException {
+    public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGroupId) throws Exception {
         String projectId = getWdkModel().getProjectId();
         String buildNumber = getWdkModel().getBuildNumber();
         String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
