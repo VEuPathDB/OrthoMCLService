@@ -11,16 +11,20 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.log4j.Logger;
+import org.gusdb.wdk.model.WdkModelException;
 import org.gusdb.wdk.service.service.AbstractWdkService;
 import org.json.JSONObject;
 
 @Path ("/newick-protein-tree")
 public class NewickProteinTreeService extends AbstractWdkService {
 
+    private static final Logger LOG = Logger.getLogger(NewickProteinTreeService.class);
+
     @GET
     @Path ("/{orthoGroupId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGroupId) throws Exception {
+    public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGroupId) throws WdkModelException {
         String projectId = getWdkModel().getProjectId();
         String buildNumber = getWdkModel().getBuildNumber();
         String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
@@ -35,7 +39,8 @@ public class NewickProteinTreeService extends AbstractWdkService {
             }
         }
         catch (IOException e) {
-            e.printStackTrace();
+            LOG.error("Could not read newick file: " + newickPath, e);
+            throw new WdkModelException("Could not read newick file: " + newickPath, e);
         }
 
         JSONObject jsonObject = new JSONObject();
