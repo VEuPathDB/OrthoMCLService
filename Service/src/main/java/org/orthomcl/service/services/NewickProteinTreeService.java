@@ -29,9 +29,10 @@ public class NewickProteinTreeService extends AbstractWdkService {
         String projectId = getWdkModel().getProjectId();
         String buildNumber = getWdkModel().getBuildNumber();
         String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
-        // TODO need to add orthoGroupId to this path, update to reflect actual webservice mirror directory structure
-        // this should be considered a placeholder really
-        String newickPath = webservicesDir + "/" + projectId + "/" + "build-" + buildNumber + "/data/newick";
+        
+        orthoGroupId = validateOrthoGroupId(orthoGroupId);
+        String newickPath = webservicesDir + "/" + projectId + "/" + "build-" + buildNumber + "/newick/" + orthoGroupId + ".fasta.fas.tree";
+        LOG.debug("Newick path: " + newickPath);
 
         try (BufferedReader br = new BufferedReader(new FileReader(newickPath))) {
             String newick = new StringBuilder();
@@ -57,4 +58,22 @@ public class NewickProteinTreeService extends AbstractWdkService {
         Response response = Response.ok(jsonObject.toString()).build();
     }
    
+/**
+ * Validates the orthoGroupId parameter. The orthoGroupId must not be null or
+ * empty. The orthoGroupId may not contain any of the following characters:
+ * / .. # : @
+ *
+ * @param  orthoGroupId  the orthoGroupId to be validated
+ * @return               the validated orthoGroupId
+ */
+private String validateOrthoGroupId(String orthoGroupId) {
+    if (orthoGroupId == null || orthoGroupId.isEmpty()) {
+        throw new IllegalArgumentException("orthoGroupId is required");
+    }
+    if (orthoGroupId.contains("/") || orthoGroupId.contains("..") || orthoGroupId.contains("#") || 
+        orthoGroupId.contains(":") || orthoGroupId.contains("@") || orthoGroupId.contains(" ")) {
+        throw new IllegalArgumentException("orthoGroupId contains invalid characters");
+    }
+    return orthoGroupId;
+}
 }
