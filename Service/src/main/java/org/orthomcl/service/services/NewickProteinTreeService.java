@@ -22,6 +22,14 @@ public class NewickProteinTreeService extends AbstractWdkService {
 
     private static final Logger LOG = Logger.getLogger(NewickProteinTreeService.class);
 
+    /**
+     * Retrieves the newick protein tree for a given orthoGroupId.
+     *
+     * @param  orthoGroupId  the ID of the orthoGroup
+     * @return               a Response object containing the newick protein tree as a string in JSON format
+     * @throws WdkModelException if there is an error retrieving the newick protein tree
+     * @throws NotFoundException if the newick protein tree for the orthoGroup does not exist
+     */
     @GET
     @Path ("/{orthoGroupId}")
     @Produces(MediaType.APPLICATION_JSON)
