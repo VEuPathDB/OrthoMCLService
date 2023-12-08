@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -45,6 +46,10 @@ public class NewickProteinTreeService extends AbstractWdkService {
         catch (IOException e) {
             LOG.error("Could not read newick file: " + newickPath, e);
             throw new WdkModelException("Could not read newick file: " + newickPath, e);
+        }
+        catch (FileNotFoundException e) {
+            LOG.error("Could not find newick file: " + newickPath, e);
+            throw new NotFoundException("Could not find newick file: " + newickPath, e);
         }
 
         JSONObject jsonObject = new JSONObject();
