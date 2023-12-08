@@ -22,49 +22,48 @@ public class NewickProteinTreeService extends AbstractWdkService {
 
     private static final Logger LOG = Logger.getLogger(NewickProteinTreeService.class);
 
-    /**
-     * Retrieves the newick protein tree for a given orthoGroupId.
-     *
-     * @param  orthoGroupId  the ID of the orthoGroup
-     * @return               a Response object containing the newick protein tree as a string in JSON format
-     * @throws WdkModelException if there is an error retrieving the newick protein tree
-     * @throws NotFoundException if the newick protein tree for the orthoGroup does not exist
-     */
-    @GET
-    @Path ("/{orthoGroupId}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGroupId) throws WdkModelException {
-        String projectId = getWdkModel().getProjectId();
-        String buildNumber = getWdkModel().getBuildNumber();
-        String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
+/**
+ * Retrieves the newick protein tree for a given orthoGroupId.
+ *
+ * @param  orthoGroupId  the ID of the orthoGroup
+ * @return               a Response object containing the newick protein tree as a string in JSON format
+ * @throws WdkModelException if there is an error retrieving the newick protein tree
+ * @throws NotFoundException if the newick protein tree for the orthoGroup does not exist
+ */
+@GET
+@Path ("/{orthoGroupId}")
+@Produces(MediaType.APPLICATION_JSON)
+public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGroupId) throws WdkModelException {
+    String projectId = getWdkModel().getProjectId();
+    String buildNumber = getWdkModel().getBuildNumber();
+    String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
+    
+    orthoGroupId = validateOrthoGroupId(orthoGroupId);
+    String newickPath = String.format("%s/%s/build-%s/newick/%s.fasta.fas.tree", webservicesDir, projectId, buildNumber, orthoGroupId);
+    LOG.debug("Newick path: " + newickPath);
+
+    try (BufferedReader br = new BufferedReader(new FileReader(newickPath))) {
+        StringBuilder newick = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            newick.append(line);
+        }
+        String newickString = newick.toString();
+        LOG.debug("Newick: " + newickString);
         
-        orthoGroupId = validateOrthoGroupId(orthoGroupId);
-        String newickPath = webservicesDir + "/" + projectId + "/" + "build-" + buildNumber + "/newick/" + orthoGroupId + ".fasta.fas.tree";
-        LOG.debug("Newick path: " + newickPath);
-
-        try (BufferedReader br = new BufferedReader(new FileReader(newickPath))) {
-            String newick = new StringBuilder();
-            while ((String line = br.readLine()) != null) {
-                // not even sure we should have more than one line?
-                // need to check files when we have them
-                newick.append(line);
-            }
-            newick = newick.toString();
-            LOG.debug("Newick: " + newick);
-        }
-        catch (IOException e) {
-            LOG.error("Could not read newick file: " + newickPath, e);
-            throw new WdkModelException("Could not read newick file: " + newickPath, e);
-        }
-        catch (FileNotFoundException e) {
-            LOG.error("Could not find newick file: " + newickPath, e);
-            throw new NotFoundException("Could not find newick file: " + newickPath, e);
-        }
-
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("newick", newick);
-        Response response = Response.ok(jsonObject.toString()).build();
+        jsonObject.put("newick", newickString);
+        return Response.ok(jsonObject.toString()).build();
     }
+    catch (IOException e) {
+        LOG.error("Could not read newick file: " + newickPath, e);
+        throw new WdkModelException("Could not read newick file: " + newickPath, e);
+    }
+    catch (FileNotFoundException e) {
+        LOG.error("Could not find newick file: " + newickPath, e);
+        throw new NotFoundException("Could not find newick file: " + newickPath, e);
+    }
+}
    
 /**
  * Validates the orthoGroupId parameter. The orthoGroupId must not be null or
