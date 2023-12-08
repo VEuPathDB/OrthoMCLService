@@ -56,14 +56,15 @@ public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGrou
         jsonObject.put("newick", newickString);
         return Response.ok(jsonObject.toString()).build();
     }
-    catch (IOException e) {
-        LOG.error("Could not read newick file: " + newickPath, e);
-        throw new WdkModelException("Could not read newick file: " + newickPath, e);
-    }
     catch (FileNotFoundException e) {
         LOG.error("Could not find newick file: " + newickPath, e);
         throw new NotFoundException("Could not find newick file: " + newickPath, e);
     }
+    catch (IOException e) {
+        LOG.error("Could not read newick file: " + newickPath, e);
+        throw new WdkModelException("Could not read newick file: " + newickPath, e);
+    }
+    
 }
    
 /**
