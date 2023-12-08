@@ -33,12 +33,13 @@ public class NewickProteinTreeService extends AbstractWdkService {
         String newickPath = webservicesDir + "/" + projectId + "/" + "build-" + buildNumber + "/data/newick";
 
         try (BufferedReader br = new BufferedReader(new FileReader(newickPath))) {
-            String newick = "";
+            String newick = new StringBuilder();
             while ((String line = br.readLine()) != null) {
                 // not even sure we should have more than one line?
                 // need to check files when we have them
-                newick += line;
+                newick.append(line);
             }
+            newick = newick.toString();
             LOG.debug("Newick: " + newick);
         }
         catch (IOException e) {
