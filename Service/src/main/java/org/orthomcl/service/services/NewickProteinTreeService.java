@@ -40,7 +40,7 @@ public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGrou
     String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
     
     orthoGroupId = validateOrthoGroupId(orthoGroupId);
-    String newickPath = String.format("%s/%s/build-%s/newick/%s.fasta.fas.tree", webservicesDir, projectId, buildNumber, orthoGroupId);
+    String newickPath = String.format("%s/%s/build-current/newick/%s.fasta.fas.tree", webservicesDir, projectId, orthoGroupId);
     LOG.debug("Newick path: " + newickPath);
 
     try (BufferedReader br = new BufferedReader(new FileReader(newickPath))) {
