@@ -6,6 +6,7 @@ import org.eupathdb.common.service.EuPathServiceApplication;
 import org.gusdb.fgputil.SetBuilder;
 import org.orthomcl.service.services.GroupLayoutService;
 import org.orthomcl.service.services.DataSummaryService;
+import org.orthomcl.service.services.NewickProteinTreeService;
 
 public class OrthoMCLServiceApplication extends EuPathServiceApplication {
 
@@ -15,6 +16,7 @@ public class OrthoMCLServiceApplication extends EuPathServiceApplication {
       .addAll(super.getClasses())
       .add(DataSummaryService.class)
       .add(GroupLayoutService.class)
+      .add(NewickProteinTreeService.class)
       .toSet();
   }
 }
