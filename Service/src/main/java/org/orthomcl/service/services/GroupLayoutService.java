@@ -21,7 +21,7 @@ public class GroupLayoutService extends AbstractWdkService {
   public Response handleRequest(@PathParam("groupName") String groupName) throws Exception {
     // get the layout data
     GroupLayoutManager layoutManager = new GroupLayoutManager(getWdkModel());
-    GroupLayout layout = layoutManager.getLayout(getSessionUser(), groupName);
+    GroupLayout layout = layoutManager.getLayout(getRequestingUser(), groupName);
 
     // format response
     JSONObject layoutJson = layout == null
