@@ -36,11 +36,16 @@ public class NewickProteinTreeService extends AbstractWdkService {
 @Produces(MediaType.APPLICATION_JSON)
 public Response getNewickProteinTree(@PathParam("orthoGroupId") String orthoGroupId) throws WdkModelException {
     String projectId = getWdkModel().getProjectId();
-    //String buildNumber = getWdkModel().getBuildNumber();
+    String buildNumber = getWdkModel().getBuildNumber();
     String webservicesDir = getWdkModel().getProperties().get("WEBSERVICEMIRROR");
     
+    // check for any characters that could break things (will throw an error)
     orthoGroupId = validateOrthoGroupId(orthoGroupId);
-    String newickPath = String.format("%s/%s/build-current/newick/%s.fasta.fas.tree", webservicesDir, projectId, orthoGroupId);
+    // the files are not named the same as the orthogroups in the WDK
+    // so we have to remove the '7_' (e.g. 'OG7_0003862' to 'OG0003862')
+    orthoGroupId = orthoGroupId.replaceFirst("OG\\d+_", "OG");
+    // Now find and load the file
+    String newickPath = String.format("%s/%s/build-%s/geneTrees/%s.fasta.tree", webservicesDir, projectId, buildNumber, orthoGroupId);
     LOG.debug("Newick path: " + newickPath);
 
     try (BufferedReader br = new BufferedReader(new FileReader(newickPath))) {
