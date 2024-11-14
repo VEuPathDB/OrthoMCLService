@@ -26,7 +26,7 @@ sub run {
 
   my $sql = <<EOSQL;
 SELECT secondary_identifier AS full_id, sequence
-FROM dots.ExternalAaSequence
+FROM dots.OrthoAaSequence
 WHERE secondary_identifier in ($ids)
 EOSQL
 
