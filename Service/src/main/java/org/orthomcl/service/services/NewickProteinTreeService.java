@@ -48,7 +48,7 @@ public class NewickProteinTreeService extends AbstractWdkService {
     orthoGroupId = validateOrthoGroupId(orthoGroupId);
     // Now find and load the file
     String newickPath = String.format("%s/%s/build-%s/geneTrees/%s.fasta.tree", webservicesDir, projectId, buildNumber,
-            orthoGroupId);
+        orthoGroupId);
     LOG.debug("Newick path: " + newickPath);
     File newickFile = new File(newickPath);
     if (!newickFile.exists()) createNewickTreeFile(newickPath, orthoGroupId);
@@ -58,8 +58,8 @@ public class NewickProteinTreeService extends AbstractWdkService {
       out.flush();
     };
     return Response.ok(output, "text/x-nh")
-            .header("content-disposition", "attachment; filename = " + orthoGroupId + ".fasta.tree")
-            .build();
+        .header("content-disposition", "attachment; filename = " + orthoGroupId + ".fasta.tree")
+        .build();
   }
 
   /**
@@ -75,7 +75,7 @@ public class NewickProteinTreeService extends AbstractWdkService {
       throw new IllegalArgumentException("orthoGroupId is required");
     }
     if (orthoGroupId.contains("/") || orthoGroupId.contains("..") || orthoGroupId.contains("#") ||
-            orthoGroupId.contains(":") || orthoGroupId.contains("@") || orthoGroupId.contains(" ")) {
+        orthoGroupId.contains(":") || orthoGroupId.contains("@") || orthoGroupId.contains(" ")) {
       throw new IllegalArgumentException("orthoGroupId contains invalid characters");
     }
     return orthoGroupId;
