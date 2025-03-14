@@ -93,7 +93,7 @@ public class NewickProteinTreeService extends AbstractWdkService {
       String command = String.format("singularity exec orthofinder.sif mafft --auto --anysymbol %s 2> %s | fasttree -mlnni 4 > %s 2>> %s",
               fastaFilePath, errorFilePath, newickFile, errorFilePath);
       // Start the process
-      Process process = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
+      Process process = Runtime.getRuntime().exec(new String[]{command});
       int exitCode = process.waitFor();
       if (exitCode == 0) new File(errorFilePath.toString()).delete();
       else throw new WdkModelException("For group " + orthoGroupId +
@@ -104,19 +104,18 @@ public class NewickProteinTreeService extends AbstractWdkService {
     }
   }
 
-  void createFastaFile(String groupId, java.nio.file.Path fileName) throws WdkModelException {
+  void createFastaFile(String groupId, java.nio.file.Path fileName) {
     String sql =
             "SELECT eas.secondary_identifier, eas.sequence" + "\n" +
                     "FROM dots.Orthoaasequence eas, apidbtuning.sequenceAttributes sa" + "\n" +
                     "where sa.full_id = eas.secondary_identifier" + "\n" +
                     "and sa.group_name = ?";
-    try {
-      BufferedWriter writer = new BufferedWriter(new FileWriter(fileName.toString(), true));
 
-      new SQLRunner(getWdkModel().getAppDb().getDataSource(), sql, "select-protein-aa-sequence").executeQuery(
-              new Object[]{groupId},
-              new Integer[]{Types.VARCHAR, Types.VARCHAR},
-              rs -> {
+    new SQLRunner(getWdkModel().getAppDb().getDataSource(), sql, "select-protein-aa-sequence").executeQuery(
+            new Object[]{groupId},
+            new Integer[]{Types.VARCHAR},
+            rs -> {
+              try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName.toString(), true))) {
                 while (rs.next()) {
                   String seqId = rs.getString(1);
                   String seqSeq = rs.getString(2);
@@ -131,14 +130,12 @@ public class NewickProteinTreeService extends AbstractWdkService {
                   }
                 }
                 return null;
+              } catch (SQLRunnerException sre) {
+                throw new RuntimeException(sre.getCause().getMessage(), sre.getCause());
+              } catch (Exception e) {
+                throw new RuntimeException(e);
               }
-      );
-      writer.close();
-    } catch (SQLRunnerException sre) {
-      throw new WdkModelException(sre.getCause().getMessage(), sre.getCause());
-    } catch (Exception e) {
-      throw new WdkModelException(e);
-    }
+            });
   }
 
   public static String addNewlines(String input, int lineLength) {
