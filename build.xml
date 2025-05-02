@@ -23,6 +23,8 @@
       <property name="project" value="OrthoMCLService" />
       <property name="component" value="Service" />
     </ant>
+    <antcall target="createOrthofinderSingularityFile"/>    
+
   </target>
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
@@ -38,6 +40,28 @@
       <property name="project" value="OrthoMCLService" />
       <property name="component" value="Service" />
     </ant>
+  </target>
+
+  <property name="orthofinder_version"  value="1.0.0"/>
+
+  <target name="check-sif-file">
+    <condition property="file.missing">
+      <not>
+        <available file="${targetDir}/lib/sif/orthofinder-${orthofinder_version}.sif"/>
+      </not>
+    </condition>
+  </target>
+
+
+  <target name="createOrthofinderSingularityFile" depends="check-sif-file" if="file.missing">
+    <echo message="Creating OrthoFinder singularity file at ${targetDir}/lib/sif/orthofinder-${orthofinder_version}.sif"/>
+    <mkdir dir="${targetDir}/lib/sif"/>
+    <exec dir="${targetDir}/lib/sif"
+          executable="singularity"
+          failonerror="true"
+          failifexecutionfails="true">
+      <arg line="pull orthofinder-${orthofinder_version}.sif docker://veupathdb/orthofinder:${orthofinder_version}"/>
+    </exec>
   </target>
 
 </project>
