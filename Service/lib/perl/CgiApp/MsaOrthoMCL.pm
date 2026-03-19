@@ -25,9 +25,9 @@ sub run {
   my $ids = join(',', map { "'$_'" } @ids);
 
   my $sql = <<EOSQL;
-SELECT secondary_identifier AS full_id, sequence
+SELECT source_id AS full_id, sequence
 FROM dots.OrthoAaSequence
-WHERE secondary_identifier in ($ids)
+WHERE source_id in ($ids)
 EOSQL
 
   my $sth = $dbh->prepare($sql);
