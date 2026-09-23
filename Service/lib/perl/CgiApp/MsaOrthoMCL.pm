@@ -21,9 +21,12 @@ sub run {
   my $GUS_HOME = $ENV{'GUS_HOME'};
   print $cgi->header('text/html');
 
-  my @ids = $cgi->param('msa_full_ids');
+  my @ids = $cgi->multi_param('msa_full_ids');
   my $ids = join(',', map { "'$_'" } @ids);
 
+  print STDERR "msaOrthoMCL numSeqs=" . scalar(@ids) . "\n";
+
+  
   my $sql = <<EOSQL;
 SELECT source_id AS full_id, sequence
 FROM dots.OrthoAaSequence
@@ -41,15 +44,18 @@ EOSQL
 
   my ($outfh, $outFile) = tempfile();
   my ($dndfh, $dndfile) = tempfile();
-  my ($tmpfh, $tmpfile) = tempfile();
 
   my $userOutFormat = $cgi->param('clustalOutFormat');
   if ((! defined $userOutFormat) || ($userOutFormat eq "")){
       $userOutFormat = "clu";
   }
 
-  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force  --threads 4 > $tmpfile";
-  system($cmd);
+
+  # use tr to split on carriage returns in clustal's verbose output
+  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force --threads 4 | tr '\\r' '\\n' | grep 'Progressive alignment progress done'";
+
+  # print cpu usage
+  print STDERR `$cmd`;
 
   if (-z $outFile) {
       print $cgi->header('text/html');
