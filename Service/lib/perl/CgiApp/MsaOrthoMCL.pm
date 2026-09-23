@@ -48,7 +48,7 @@ EOSQL
       $userOutFormat = "clu";
   }
 
-  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force > $tmpfile";
+  my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force  --threads 4 > $tmpfile";
   system($cmd);
 
   if (-z $outFile) {
