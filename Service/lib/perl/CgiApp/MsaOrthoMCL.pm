@@ -24,9 +24,6 @@ sub run {
   my @ids = $cgi->multi_param('msa_full_ids');
   my $ids = join(',', map { "'$_'" } @ids);
 
-  print STDERR "msaOrthoMCL numSeqs=" . scalar(@ids) . "\n";
-
-  
   my $sql = <<EOSQL;
 SELECT source_id AS full_id, sequence
 FROM dots.OrthoAaSequence
@@ -54,8 +51,9 @@ EOSQL
   # use tr to split on carriage returns in clustal's verbose output
   my $cmd = "clustalo -v --residuenumber --infile=$infile --outfile=$outFile --outfmt=$userOutFormat --output-order=tree-order --guidetree-out=$dndfile --force --threads 4 | tr '\\r' '\\n' | grep 'Progressive alignment progress done'";
 
-  # print cpu usage
-  print STDERR `$cmd`;
+  # print cpu usage info
+  my $clustalCpuInfo = `$cmd`;
+  print STDERR "msaOrthoMCL numSeqs=" . scalar(@ids) . " $clustalCpuInfo\n";
 
   if (-z $outFile) {
       print $cgi->header('text/html');
